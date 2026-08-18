@@ -156,8 +156,7 @@ async function api(path, opts = {}) {
   const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
   if (token) headers['Authorization'] = 'Bearer ' + token;
   const res = await fetch(API_BASE + path, Object.assign({}, opts, { headers }));
-  if (res.status === 401) {
-    localStorage.removeItem('doin_token');
+if (res.status === 401 && path !== '/auth/login') {    localStorage.removeItem('doin_token');
     state.user = null;
     renderLogin();
     throw new Error('Your session ended. Please sign in again.');
